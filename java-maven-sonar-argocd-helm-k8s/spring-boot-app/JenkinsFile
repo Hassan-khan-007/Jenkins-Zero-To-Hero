@@ -1,6 +1,5 @@
 pipeline {
-  agent any    // This means Jenkins can run the pipeline on any available agent
-  }
+  agent any
   stages {
     stage('Checkout') {
       steps {
@@ -15,4 +14,5 @@ pipeline {
         sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package'
       }
     }
-   
+  } 
+}
