@@ -1,7 +1,7 @@
 pipeline {
   agent { label 'jenkins-agent' }
   tools {
-        maven 'Maven-3.9.11'   // configure in Jenkins → Global Tool Config
+        maven 'Maven3'   // configure in Jenkins → Global Tool Config
         jdk 'JDK-17'          // configure in Jenkins → Global Tool Config
   }
   stages {
