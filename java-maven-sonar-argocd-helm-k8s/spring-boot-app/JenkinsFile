@@ -39,9 +39,7 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry([ credentialsId: 'dockerhub', url: '' ]) {
-                        sh """
-                          docker pull ${IMAGE_NAME}:${IMAGE_TAG}
-                        """
+                        sh 'docker pull ${IMAGE_NAME}:${IMAGE_TAG}'
                     }
                 }
             }
