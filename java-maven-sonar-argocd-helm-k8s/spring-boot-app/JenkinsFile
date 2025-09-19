@@ -1,8 +1,8 @@
 pipeline {
   agent { label 'jenkins-agent' }
   tools {
-        maven 'Maven3'   // configure in Jenkins → Global Tool Config
-        jdk 'JDK 17'          // configure in Jenkins → Global Tool Config
+    maven 'Maven3'   // configure in Jenkins → Global Tool Config
+    jdk 'JDK 17'     // configure in Jenkins → Global Tool Config
   }
   stages {
     stage('Checkout') {
@@ -21,30 +21,27 @@ pipeline {
     stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "hassankhan786/ultimate-cicd:${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
         REGISTRY_CREDENTIALS = credentials('dockerhub')
       }
       steps {
         script {
-            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
-            docker.withRegistry('https://index.docker.io/v1/', "dockerhub") {
-                dockerImage.push()
-            }
+          sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
+          def dockerImage = docker.image("${DOCKER_IMAGE}")
+          docker.withRegistry('https://index.docker.io/v1/', "dockerhub") {
+            dockerImage.push()
           }
         }
       }
-      stages {
-        stage('Pull Image from DockerHub') {
-            steps {
-                script {
-                    withDockerRegistry([ credentialsId: 'dockerhub', url: '' ]) {
-                        sh 'docker pull ${IMAGE_NAME}:${IMAGE_TAG}'
-                    }
-                 }
-              }
-           }
-         }
-      }        
-   }
+    }
+    stage('Pull Image from DockerHub') {
+      steps {
+        script {
+          withDockerRegistry([ credentialsId: 'dockerhub', url: '' ]) {
+            sh 'docker pull ${DOCKER_IMAGE}'
+          }
+        }
+      }
+    }
+  }
 }
+
