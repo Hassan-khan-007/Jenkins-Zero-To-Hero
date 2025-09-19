@@ -41,13 +41,10 @@ pipeline {
                     withDockerRegistry([ credentialsId: 'dockerhub', url: '' ]) {
                         sh 'docker pull ${IMAGE_NAME}:${IMAGE_TAG}'
                     }
-                  }
-                }
+                 }
               }
-            }
-          }        
-        }
-      }
-    }
-  }
+           }
+         }
+      }        
+   }
 }
