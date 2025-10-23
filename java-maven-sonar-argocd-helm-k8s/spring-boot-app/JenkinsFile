@@ -36,7 +36,7 @@ pipeline {
     stage('Deploy application') {
       steps {
         script {
-          sh 'docker run -d --name app-container -p 8000:8000 hassankhan786/ultimate-cicd:latest'
+          sh 'docker run -d --name app-container -p 8000:8000 hassankhan786/ultimate-cicd:9'
           
           }
         }
