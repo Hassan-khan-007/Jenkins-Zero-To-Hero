@@ -33,15 +33,11 @@ pipeline {
         }
       }
     }
-    stage('Pull Image from DockerHub') {
+    stage('Deploy application') {
       steps {
         script {
-          echo "Pulling private Docker image..."
-          withDockerRegistry([ usernamePassword (credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-            sh '''
-              echo "$PASS" | docker login -u "$USER" --password-stdin
-              docker pull hassankhan786/ultimate-cicd:latest
-            '''
+          sh "docker run -d --name app-container -p 8000:8000 ${DOCKER_IMAGE}"
+          
           }
         }
       }
