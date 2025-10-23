@@ -36,8 +36,12 @@ pipeline {
     stage('Pull Image from DockerHub') {
       steps {
         script {
-          withDockerRegistry([ credentialsId: 'dockerhub', url: '' ]) {
-            sh 'docker pull ${DOCKER_IMAGE}${BUILD_NUMBER}'
+          echo "Pulling private Docker image..."
+          withDockerRegistry([ usernamePassword (credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+            sh '''
+              echo "$PASS" | docker login -u "$USER" --password-stdin
+              docker pull hassankhan786/ultimate-cicd:latest
+            '''
           }
         }
       }
