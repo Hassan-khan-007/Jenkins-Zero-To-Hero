@@ -67,6 +67,7 @@ pipeline {
                         # Update image tag safely
                         sed -i "s|hassankhan786/ultimate-cicd:.*|hassankhan786/ultimate-cicd:${BUILD_NUMBER}|g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
 
+                        BUILD_NUMBER=${BUILD_NUMBER}
                         # Show updated file
                         cat java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
 
