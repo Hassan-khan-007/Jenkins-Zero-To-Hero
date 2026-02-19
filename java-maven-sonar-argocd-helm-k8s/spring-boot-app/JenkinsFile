@@ -53,14 +53,21 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                     sh '''
+                        set -e
+                        
                         git config user.email "hassanakhan79@gmail.com"
                         git config user.name "Hassan Khan"
 
+                        # Checkout main branch
                         git checkout main
-                        git pull origin main
 
+                        # Pull latest changes
+                        git pull https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git main
+
+                        # Update image tag safely
                         sed -i "s|hassankhan786/ultimate-cicd:.*|hassankhan786/ultimate-cicd:${BUILD_NUMBER}|g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
 
+                        # Show updated file
                         cat java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
 
                         git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
@@ -75,3 +82,4 @@ pipeline {
     }  // closes stages
 
 }      // closes pipeline
+
